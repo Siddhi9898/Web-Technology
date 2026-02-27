@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .calculator {
+            width: 320px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        input {
+            width: 95%;
+            height: 45px;
+            font-size: 18px;
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 60px;
+            height: 45px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .history {
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: left;
+            max-height: 100px;
+            overflow-y: auto;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Smart JavaScript Calculator</h2>
+
+<div class="calculator">
+    <input type="text" id="display" placeholder="Enter number">
+
+    <br>
+
+    <button onclick="operate('+')">+</button>
+    <button onclick="operate('-')">-</button>
+    <button onclick="operate('*')">×</button>
+    <button onclick="operate('/')">÷</button>
+    <button onclick="square()">x²</button>
+    <button onclick="clearDisplay()">C</button>
+
+    <div class="history" id="history">
+        <strong>History:</strong>
+    </div>
+</div>
+
+<script>
+
+function getNumber() {
+    let value = document.getElementById("display").value;
+
+    if (value === "" || isNaN(value)) {
+        alert("Please enter a valid number!");
+        return null;
+    }
+
+    return parseFloat(value);
+}
+
+function operate(operator) {
+    let num1 = getNumber();
+    if (num1 === null) return;
+
+    let num2 = prompt("Enter second number:");
+
+    if (num2 === null || isNaN(num2)) {
+        alert("Invalid second number!");
+        return;
+    }
+
+    num2 = parseFloat(num2);
+    let result;
+
+    if (operator === "+") result = num1 + num2;
+    if (operator === "-") result = num1 - num2;
+    if (operator === "*") result = num1 * num2;
+
+    if (operator === "/") {
+        if (num2 === 0) {
+            alert("Division by zero is not allowed!");
+            return;
+        }
+        result = num1 / num2;
+    }
+
+    document.getElementById("display").value = result;
+
+    document.getElementById("history").innerHTML +=
+        `<div>${num1} ${operator} ${num2} = ${result}</div>`;
+}
+
+function square() {
+    let num = getNumber();
+    if (num === null) return;
+
+    let result = num * num;
+    document.getElementById("display").value = result;
+
+    document.getElementById("history").innerHTML +=
+        `<div>${num}² = ${result}</div>`;
+}
+
+function clearDisplay() {
+    document.getElementById("display").value = "";
+}
+
+</script>
+
+</body>
+</html>
